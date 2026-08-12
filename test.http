@@ -1,0 +1,29 @@
+### 1. Check if Space 1 has any reservations (Should be empty at first)
+GET http://localhost:8080/api/reservations/space/1
+Accept: application/json
+
+---
+
+### 2. Create a new reservation for Space 1 (Should succeed)
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+
+{
+  "spaceId": 1,
+  "requesterName": "John Doe",
+  "startTime": "2026-08-20T10:00:00",
+  "endTime": "2026-08-20T12:00:00"
+}
+
+---
+
+### 3. Try to book the SAME time for Space 1 (Should fail with 400 Bad Request)
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+
+{
+  "spaceId": 1,
+  "requesterName": "Jane Smith",
+  "startTime": "2026-08-20T11:00:00",
+  "endTime": "2026-08-20T13:00:00"
+}

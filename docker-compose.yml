@@ -9,6 +9,17 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      # This maps your local SQL file into a special folder inside the container
-      # Docker will automatically run any .sql files found here on startup.
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      # This overrides your application.yml so it connects to the Docker 'db' 
+      # instead of 'localhost' (since they are now in Docker together!)
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/parking_db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: password123
+    depends_on:
+      - db
