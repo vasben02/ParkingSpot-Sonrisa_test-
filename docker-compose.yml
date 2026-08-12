@@ -1,0 +1,14 @@
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: parking_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+    ports:
+      - "5432:5432"
+    volumes:
+      # This maps your local SQL file into a special folder inside the container
+      # Docker will automatically run any .sql files found here on startup.
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
